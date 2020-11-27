@@ -129,5 +129,37 @@ app.get("/products/category/:key", (req, res) => {
 
 });
 
+// to get individual category items
+app.get("/products/subcategory/:key", (req, res) => {
+
+  
+    sambaIT.connect("mongodb+srv://admin:admin@mycluster.sup8t.mongodb.net/MyDB?retryWrites=true&w=majority", (err, xyz) => {
+        if (err) throw err;
+        else {
+            console.log("hiiiii")
+            let db = xyz.db("MyDB");
+            // db.collection("MyCollection").find({"subcategory":"AC" }).toArray((err,array)=>{
+            db.collection("MyCollection").find({subcategory:req.params.key}).toArray((err, array) => {
+                if (err) throw err;
+                else {
+                  
+                    if(array.length>0)
+                    {
+                        res.status(200).json({
+                            count: array.length,
+                            products:array
+                        })
+                    }
+                    else{
+                        res.json({"message":"products not available"});
+                    }
+                   
+                }
+            });
+        }
+    });
+
+});
+
 
 app.listen(process.env.PORT || 8080);
