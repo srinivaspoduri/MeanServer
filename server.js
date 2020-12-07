@@ -6,6 +6,7 @@ let app = express();//app is the master object by using express module -master o
 //body-parser module used to accept the data form client(UI)
 
 let bodyparser = require("body-parser");
+var jwt = require('jsonwebtoken');
 //setting the communication between client (angular) and server(node)
 //it wont support other formats,cient should send only json format
 app.use(bodyparser.json())
@@ -107,7 +108,7 @@ app.get("/products/category/:key", (req, res) => {
             console.log("hiiiii")
             let db = xyz.db("MyDB");
             // db.collection("MyCollection").find({"subcategory":"AC" }).toArray((err,array)=>{
-            db.collection("MyCollection").find({category:req.params.key}).toArray((err, array) => {
+            db.collection("MyCollection").find({category:equalsIgnoreCase(req.params.key)}).toArray((err, array) => {
                 if (err) throw err;
                 else {
                   
@@ -139,7 +140,7 @@ app.get("/products/subcategory/:key", (req, res) => {
             console.log("hiiiii")
             let db = xyz.db("MyDB");
             // db.collection("MyCollection").find({"subcategory":"AC" }).toArray((err,array)=>{
-            db.collection("MyCollection").find({subcategory:req.params.key}).toArray((err, array) => {
+            db.collection("MyCollection").find({subcategory:equalsIgnoreCase(req.params.key)}).toArray((err, array) => {
                 if (err) throw err;
                 else {
                   
@@ -161,5 +162,32 @@ app.get("/products/subcategory/:key", (req, res) => {
 
 });
 
+app.post("/login" , (req,res)=>{
+    sambaIT.connect("mongodb+srv://admin:admin@mycluster.sup8t.mongodb.net/MyDB?retryWrites=true&w=majority", (err, xyz) => {
+        if (err) throw err;
+        else {
+            console.log("hiiiii")
+            let db = xyz.db("MyDB");
+            db.collection("UsersCollections").find({username:req.body.username}).toArray((err,arry)=>{
+                console.log(arry);
+                if(err) throw err;
+                else{
+                    if(arry.length >0){
+                        let token = jwt.sign({username:arry.username},'secret', {expiresIn : '3h'});
+                        return res.status(200).json(token);
 
-app.listen(process.env.PORT || 8080);
+                    }  else {
+                        return res.status(501).json({message:' Invalid Credentials'});
+                      }
+                }
+
+            })
+        }
+    
+})
+
+})
+app.listen(process.env.PORT || 8080,()=>{
+    console.log("Server Started");
+});
+
