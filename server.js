@@ -177,7 +177,7 @@ app.post("/login" , (req,res)=>{
                         return res.status(200).json(token);
 
                     }  else {
-                        return res.status(501).json({message:' Invalid Credentials'});
+                        return res.status(401).json({message:'Invalid UserName or Password'});
                       }
                 }
 
