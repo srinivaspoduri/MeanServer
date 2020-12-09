@@ -199,17 +199,19 @@ app.post("/login" , (req,res)=>{
 
 })
 
-app.post("/cart/:key" , (req,res)=>{
+app.get("/getcart/:key" , (req,res)=>{
+
+    console.log("in cart api call")
     sambaIT.connect("mongodb+srv://admin:admin@mycluster.sup8t.mongodb.net/MyDB?retryWrites=true&w=majority", (err, xyz) => {
         if (err) throw err;
         else {
-            console.log("hiiiii")
+            console.log("hiiiii" + req.params.key)
             let db = xyz.db("MyDB");
-            db.collection("CartCollection").find({username:req.body.key}).toArray((err,arry)=>{
-                console.log(arry);
+            db.collection("CartCollection").find({email:req.params.key}).toArray((err,array)=>{
+                console.log(array);
                 if(err) throw err;
                 else{
-                    if(arry.length >0){
+                    if(array.length >0){
                         res.status(200).json({
                             count: array.length,
                             cartitems:array
