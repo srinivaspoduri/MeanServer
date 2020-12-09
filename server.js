@@ -13,7 +13,6 @@ app.use(bodyparser.json())
 //after server reciving the json , server should parse/read the data.
 //extended:false means read the data coming from client.
 app.use(bodyparser.urlencoded({ extended: false }))
-
 //enable to ports communiction
 let cors = require("cors")
 app.use(cors())
