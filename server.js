@@ -108,7 +108,7 @@ app.get("/products/category/:key", (req, res) => {
             console.log("hiiiii")
             let db = xyz.db("MyDB");
             // db.collection("MyCollection").find({"subcategory":"AC" }).toArray((err,array)=>{
-            db.collection("MyCollection").find({category:equalsIgnoreCase(req.params.key)}).toArray((err, array) => {
+            db.collection("MyCollection").find({category:req.params.key}).toArray((err, array) => {
                 if (err) throw err;
                 else {
                   
@@ -140,7 +140,7 @@ app.get("/products/subcategory/:key", (req, res) => {
             console.log("hiiiii")
             let db = xyz.db("MyDB");
             // db.collection("MyCollection").find({"subcategory":"AC" }).toArray((err,array)=>{
-            db.collection("MyCollection").find({subcategory:equalsIgnoreCase(req.params.key)}).toArray((err, array) => {
+            db.collection("MyCollection").find({subcategory:req.params.key}).toArray((err, array) => {
                 if (err) throw err;
                 else {
                   
