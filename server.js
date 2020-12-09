@@ -107,6 +107,11 @@ app.get("/Allproducts", (req, res) => {
 });
 app.get("/products/category/:key", (req, res) => {
 
+    app.use((req,res,next)=>{
+        res.header('Access-Control-Allow-Origin','*')
+        res.header('Access-Control-Allow-Headers',"Origin, X-Requested-With, Content-Type, Accept")
+        next();
+    })
   
     sambaIT.connect("mongodb+srv://admin:admin@mycluster.sup8t.mongodb.net/MyDB?retryWrites=true&w=majority", (err, xyz) => {
         if (err) throw err;
