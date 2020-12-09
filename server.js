@@ -14,9 +14,15 @@ app.use(bodyparser.json())
 //extended:false means read the data coming from client.
 app.use(bodyparser.urlencoded({ extended: false }))
 
+app.use((req,res,next)=>{
+    res.header('Access-Control-Allow-Origin','*')
+    res.header('Access-Control-Allow-Headers',"Origin, X-Requested-With, Content-Type, Accept")
+    next();
+})
 //enable to ports communiction
 let cors = require("cors")
 app.use(cors())
+
 //to create client to connect db from server(node)
 let mongodb = require("mongodb");
 let sambaIT = mongodb.MongoClient;
@@ -101,6 +107,11 @@ app.get("/Allproducts", (req, res) => {
 });
 app.get("/products/category/:key", (req, res) => {
 
+    app.use((req,res,next)=>{
+        res.setHeader('Access-Control-Allow-Origin','*')
+        res.setHeader('Access-Control-Allow-Headers',"Origin, X-Requested-With, Content-Type, Accept")
+        next();
+    })
   
     sambaIT.connect("mongodb+srv://admin:admin@mycluster.sup8t.mongodb.net/MyDB?retryWrites=true&w=majority", (err, xyz) => {
         if (err) throw err;
