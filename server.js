@@ -229,6 +229,36 @@ app.get("/getcart/:key" , (req,res)=>{
 
 })
 
+
+
+
+app.put("/addcart" , (req,res)=>{
+    sambaIT.connect("mongodb+srv://admin:admin@mycluster.sup8t.mongodb.net/MyDB?retryWrites=true&w=majority", (err, xyz) => {
+        if (err) throw err;
+        else {
+            console.log("hiiiii")
+            let db = xyz.db("MyDB");
+            db.collection("UsersCollections").find({username:req.body.username}).toArray((err,arry)=>{
+                console.log(arry);
+                if(err) throw err;
+                else{
+                    if(arry.length >0){
+                        let token = jwt.sign({username:arry.username},'secret', {expiresIn : '3h'});
+                        return res.status(200).json(token);
+
+                    }  else {
+                        return res.status(401).json({message:'Invalid UserName or Password'});
+                      }
+                }
+
+            })
+        }
+    
+})
+
+})
+
+
 app.listen(process.env.PORT || 8080,()=>{
     console.log("Server Started");
 });
