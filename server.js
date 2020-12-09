@@ -13,14 +13,16 @@ app.use(bodyparser.json())
 //after server reciving the json , server should parse/read the data.
 //extended:false means read the data coming from client.
 app.use(bodyparser.urlencoded({ extended: false }))
-//enable to ports communiction
-let cors = require("cors")
-app.use(cors())
+
 app.use((req,res,next)=>{
     res.header('Access-Control-Allow-Origin','*')
     res.header('Access-Control-Allow-Headers',"Origin, X-Requested-With, Content-Type, Accept")
     next();
 })
+//enable to ports communiction
+let cors = require("cors")
+app.use(cors())
+
 //to create client to connect db from server(node)
 let mongodb = require("mongodb");
 let sambaIT = mongodb.MongoClient;
