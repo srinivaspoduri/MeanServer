@@ -173,6 +173,7 @@ app.post("/login" , (req,res)=>{
                 else{
                     if(arry.length >0){
                         let token = jwt.sign({username:arry.username},'secret', {expiresIn : '3h'});
+                        res.setHeader("Access-Control-Allow-Origin", "*");
                         return res.status(200).json(token);
 
                     }  else {
