@@ -16,6 +16,9 @@ app.use(bodyparser.urlencoded({ extended: false }))
 //enable to ports communiction
 let cors = require("cors")
 app.use(cors())
+app.use((req,res,next)=>{
+    res.header('Access-Control-Allow-Origin','*')
+})
 //to create client to connect db from server(node)
 let mongodb = require("mongodb");
 let sambaIT = mongodb.MongoClient;
@@ -173,7 +176,6 @@ app.post("/login" , (req,res)=>{
                 else{
                     if(arry.length >0){
                         let token = jwt.sign({username:arry.username},'secret', {expiresIn : '3h'});
-                        res.setHeader("Access-Control-Allow-Origin", "*");
                         return res.status(200).json(token);
 
                     }  else {
