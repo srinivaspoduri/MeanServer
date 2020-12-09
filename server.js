@@ -199,13 +199,13 @@ app.post("/login" , (req,res)=>{
 
 })
 
-app.post("/cart" , (req,res)=>{
+app.post("/cart/:key" , (req,res)=>{
     sambaIT.connect("mongodb+srv://admin:admin@mycluster.sup8t.mongodb.net/MyDB?retryWrites=true&w=majority", (err, xyz) => {
         if (err) throw err;
         else {
             console.log("hiiiii")
             let db = xyz.db("MyDB");
-            db.collection("CartCollections").find({username:req.body.username}).toArray((err,arry)=>{
+            db.collection("CartCollections").find({username:req.body.key}).toArray((err,arry)=>{
                 console.log(arry);
                 if(err) throw err;
                 else{
