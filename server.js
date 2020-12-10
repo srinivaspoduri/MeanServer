@@ -221,6 +221,7 @@ app.post("/addToCart",(req,res)=>{
                     })
                 }else{
                     db.collection("JhansiCart").updateOne(
+                        console.log("hiiiii" +cartItem.products)
                         {"username":cartItem.username},
                         {"$push":{ "products": cartItem.products}},(err,result)=>{
                             if(err) throw err;
