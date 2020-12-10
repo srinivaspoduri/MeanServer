@@ -250,7 +250,7 @@ app.get("/getcart/:key" , (req,res)=>{
         else {
             console.log("hiiiii" + req.params.key)
             let db = xyz.db("MyDB");
-            db.collection("CartCollection").find({email:req.params.key}).toArray((err,array)=>{
+            db.collection("JhansiCart").find({email:req.params.key}).toArray((err,array)=>{
                 console.log(array);
                 if(err) throw err;
                 else{
