@@ -220,9 +220,9 @@ app.post("/addToCart",(req,res)=>{
                         }
                     })
                 }else{
+                    console.log("Add to Cart products : "      +JSON.stringify(cartItem.products))
                     db.collection("JhansiCart").updateOne(
-                        console.log("hiiiii" +cartItem.products)
-                        {"username":cartItem.username},
+                       {"username":cartItem.username},
                         {"$push":{ "products": cartItem.products}},(err,result)=>{
                             if(err) throw err;
                             else{
