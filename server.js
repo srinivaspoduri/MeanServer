@@ -210,6 +210,9 @@ app.post("/addToCart",(req,res)=>{
             db.collection("JhansiCart").find({username:cartItem.username}).toArray((err,arr)=>{
                 console.log(arr.length);
                 if(arr.length == 0){
+                    let prodArr = [];
+                    prodArr.push(cartItem.products);
+                    cartItem.products=prodArr;
                     db.collection("JhansiCart").insertOne(cartItem,(err,result)=>{
                         if(err) throw err;
                         else{
