@@ -194,8 +194,47 @@ app.post("/login" , (req,res)=>{
 
             })
         }
-    
+    })
+ 
 })
+app.post("/addToCart",(req,res)=>{
+    
+    var cartItem = {
+        "username" : req.body.username,
+        "products":  req.body.product
+    }
+    sambaIT.connect("mongodb+srv://admin:admin@mycluster.sup8t.mongodb.net/MyDB?retryWrites=true&w=majority", (err, xyz) => {
+        if(err)throw err;
+        else{
+            let db = xyz.db("MyDB");
+            db.collection("JhansiCart").find({username:cartItem.username}).toArray((err,arr)=>{
+                console.log(arr.length);
+                if(arr.length == 0){
+                    db.collection("JhansiCart").insertOne(cartItem,(err,result)=>{
+                        if(err) throw err;
+                        else{
+                            res.send({insert:"Success"});
+                        }
+                    })
+                }else{
+                    db.collection("JhansiCart").updateOne(
+                        {"username":cartItem.username},
+                        {"$push":{ "products": cartItem.products}},(err,result)=>{
+                            if(err) throw err;
+                            else{
+                                res.send({message:"product Added to cart array"});
+                            }
+
+                        }
+                    )
+                }
+            })
+            
+            
+            
+        }
+    })
+
 
 })
 app.listen(process.env.PORT || 8080,()=>{
